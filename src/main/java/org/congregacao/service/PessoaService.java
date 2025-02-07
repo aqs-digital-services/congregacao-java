@@ -236,7 +236,7 @@ public class PessoaService {
         endereco.setComplemento(enderecoDTO.getComplemento());
         endereco.setBairro(enderecoDTO.getBairro());
         endereco.setCep(enderecoDTO.getCep());
-        endereco.setMunicipio(enderecoDTO.getMunicipio());
+        endereco.setCidade(enderecoDTO.getCidade());
         endereco.setUf(enderecoDTO.getUf());
         return endereco;
     }

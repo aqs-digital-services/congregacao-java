@@ -23,7 +23,6 @@ public class Pessoa {
     @Column(name = "nome_completo")
     private String nomeCompleto;
 
-    
     @Column(nullable = false)
     private String genero;
 
