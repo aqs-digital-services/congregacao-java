@@ -1,0 +1,41 @@
+name: Deploy no AKS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "k8s/**"
+      - "Dockerfile"
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v3
+
+      - name: Autenticar no Azure
+        run: |
+          az login --service-principal \
+            --username ${{ secrets.AZURE_CLIENT_ID }} \
+            --password ${{ secrets.AZURE_CLIENT_SECRET }} \
+            --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Configurar AKS e Kubectl
+        run: |
+          az aks get-credentials --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name myAKSCluster
+
+      - name: Construir e Enviar Docker para GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u USERNAME --password-stdin
+          docker build -t ghcr.io/NOME_ORG/NOME_REPO:latest .
+          docker push ghcr.io/NOME_ORG/NOME_REPO:latest
+
+      - name: Aplicar Configuração no AKS
+        run: |
+          kubectl apply -f k8s/secrets.yml
+          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f k8s/service.yml
