@@ -26,7 +26,6 @@ public class PessoaController {
         return ResponseEntity.ok(pessoas);
     }
 
-    // 2. Buscar pessoa por ID
     @GetMapping("/{id}")
     public ResponseEntity<PessoaResponseDTO> buscarPessoaPorId(@PathVariable Long id) {
         PessoaResponseDTO pessoa = pessoaService.buscarPessoaPorId(id);
@@ -43,14 +42,12 @@ public class PessoaController {
         return ResponseEntity.ok(dadosResumidos);
     }
 
-    // 3. Criar nova pessoa
     @PostMapping
     public ResponseEntity<PessoaResponseDTO> criarPessoa(@RequestBody PessoaRequestDTO pessoaRequest) {
         PessoaResponseDTO novaPessoa = pessoaService.criarPessoa(pessoaRequest);
         return ResponseEntity.status(201).body(novaPessoa);
     }
 
-    // 4. Atualizar uma pessoa existente
     @PutMapping("/{id}")
     public ResponseEntity<PessoaResponseDTO> atualizarPessoa(@PathVariable Long id, @RequestBody PessoaRequestDTO pessoaRequest) {
         PessoaResponseDTO pessoaAtualizada = pessoaService.atualizarPessoa(id, pessoaRequest);
@@ -61,7 +58,6 @@ public class PessoaController {
         }
     }
 
-    // 5. Deletar uma pessoa
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPessoa(@PathVariable Long id) {
         boolean deletado = pessoaService.deletarPessoa(id);
@@ -72,7 +68,6 @@ public class PessoaController {
         }
     }
 
-    // 7. Associar privilégio a uma pessoa
     @PostMapping("/{id}/privilegio")
     public ResponseEntity<String> associarPrivilegio(@PathVariable Long id, @RequestBody PrivilegioRequestDTO privilegioRequest) {
         boolean sucesso = pessoaService.associarPrivilegio(id, privilegioRequest.getPrivilegio());
@@ -83,7 +78,6 @@ public class PessoaController {
         }
     }
 
-    // 8. Listar os privilégios de uma pessoa
     @GetMapping("/{id}/privilegios")
     public ResponseEntity<List<String>> listarPrivilegiosPessoa(@PathVariable Long id) {
         List<String> privilegios = pessoaService.listarPrivilegiosPessoa(id);
