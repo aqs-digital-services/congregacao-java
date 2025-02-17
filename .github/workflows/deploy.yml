@@ -28,6 +28,15 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name aks-spring-prd-br
 
+      - name: Configurar JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Construir aplicação com Maven
+        run: mvn clean package -DskipTests
+
       - name: Construir e Enviar Docker para GHCR
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
