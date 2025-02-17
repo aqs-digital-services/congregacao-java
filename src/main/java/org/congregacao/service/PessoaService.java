@@ -52,7 +52,6 @@ public class PessoaService {
                 .collect(Collectors.toList());
     }
 
-    // 2. Buscar pessoa por ID com todos os dados
     public PessoaResponseDTO buscarPessoaPorId(Long id) {
         Optional<Pessoa> pessoaOpt = pessoaRepository.findById(id);
         return pessoaOpt.map(this::mapearParaPessoaResponseDTO).orElse(null);
@@ -74,8 +73,6 @@ public class PessoaService {
         return dadosResumidos;
     }
 
-
-    // 3. Criar nova pessoa
     public PessoaResponseDTO criarPessoa(PessoaRequestDTO pessoaRequest) {
         Pessoa pessoa = new Pessoa();
         preencherDadosPessoa(pessoa, pessoaRequest);
@@ -83,7 +80,6 @@ public class PessoaService {
         return mapearParaPessoaResponseDTO(pessoaSalva);
     }
 
-    // 4. Atualizar uma pessoa existente
     public PessoaResponseDTO atualizarPessoa(Long id, PessoaRequestDTO pessoaRequest) {
         Optional<Pessoa> pessoaOpt = pessoaRepository.findById(id);
         if (pessoaOpt.isPresent()) {
@@ -96,7 +92,6 @@ public class PessoaService {
         }
     }
 
-    // 5. Deletar uma pessoa
     public boolean deletarPessoa(Long id) {
         if (pessoaRepository.existsById(id)) {
             pessoaRepository.deleteById(id);
@@ -106,7 +101,6 @@ public class PessoaService {
         }
     }
 
-    // 7. Associar privilégio a uma pessoa
     public boolean associarPrivilegio(Long id, String privilegio) {
         Optional<Pessoa> pessoaOpt = pessoaRepository.findById(id);
         Optional<Privilegio> privilegioOpt = privilegioRepository.findByPrivilegio(privilegio);
@@ -120,7 +114,6 @@ public class PessoaService {
         return false;
     }
 
-    // 8. Listar os privilégios de uma pessoa
     public List<String> listarPrivilegiosPessoa(Long id) {
         Optional<Pessoa> pessoaOpt = pessoaRepository.findById(id);
         if (pessoaOpt.isPresent()) {
@@ -132,7 +125,6 @@ public class PessoaService {
         return List.of();
     }
 
-    // Métodos auxiliares
 
     private void preencherDadosPessoa(Pessoa pessoa, PessoaRequestDTO pessoaRequest) {
         pessoa.setNome(pessoaRequest.getNome());
@@ -154,8 +146,8 @@ public class PessoaService {
                     .orElse(null);
             pessoa.setPioneiro(pioneiro);
         }
-        if(pessoaRequest.getGrupoId() != null) {
-        pessoa.setGrupo(grupoRepository.findById(pessoaRequest.getGrupoId()).orElse(null));
+        if (pessoaRequest.getGrupoId() != null) {
+            pessoa.setGrupo(grupoRepository.findById(pessoaRequest.getGrupoId()).orElse(null));
         }
         pessoa.setUngido(pessoaRequest.getUngido());
 
@@ -214,7 +206,6 @@ public class PessoaService {
                     .collect(Collectors.toList());
             pessoa.setContatosEmergencia(contatos);
         }
-        // Funções
         if (pessoa.getFuncoes() != null) {
             List<Funcao> funcoes = pessoa.getFuncoes().stream()
                     .map(id -> {
