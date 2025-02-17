@@ -30,9 +30,9 @@ jobs:
 
       - name: Construir e Enviar Docker para GHCR
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u USERNAME --password-stdin
-          docker build -t ghcr.io/NOME_ORG/NOME_REPO:latest .
-          docker push ghcr.io/NOME_ORG/NOME_REPO:latest
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker build -t ghcr.io/aqs-digital-services/congregacao-java:latest .
+          docker push ghcr.io/aqs-digital-services/congregacao-java:latest
 
       - name: Aplicar Configuração no AKS
         run: |
